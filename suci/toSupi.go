@@ -302,7 +302,7 @@ const imsiPrefix = "imsi-"
 const profileAScheme = "1"
 const profileBScheme = "2"
 
-func ToSupi(suci string, privateKey string) (string, error) {
+func ToSupi(suci string, privateKeyProfileA string, privateKeyProfileB string) (string, error) {
 	suciPart := strings.Split(suci, "-")
 	logger.Util3GPPLog.Infof("suciPart %s\n", suciPart)
 
@@ -333,14 +333,14 @@ func ToSupi(suci string, privateKey string) (string, error) {
 	}
 
 	if scheme == profileAScheme {
-		profileAResult, err := profileA(suciPart[len(suciPart)-1], suciPart[supiTypePlace], privateKey)
+		profileAResult, err := profileA(suciPart[len(suciPart)-1], suciPart[supiTypePlace], privateKeyProfileA)
 		if err != nil {
 			return "", err
 		} else {
 			return supiPrefix + mccMnc + profileAResult, nil
 		}
 	} else if scheme == profileBScheme {
-		profileBResult, err := profileB(suciPart[len(suciPart)-1], suciPart[supiTypePlace], privateKey)
+		profileBResult, err := profileB(suciPart[len(suciPart)-1], suciPart[supiTypePlace], privateKeyProfileB)
 		if err != nil {
 			return "", err
 		} else {
